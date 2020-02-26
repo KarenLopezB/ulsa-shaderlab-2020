@@ -1,7 +1,8 @@
-﻿Shader "Custom/SurfaceDiffuseTexture"
+Shader "Custom/SurfaceDiffuseTexColor"
 {
     Properties
     {
+        _Albedo("Albedo Color", Color) = (1,1,1,1)
         _MainTex("Main Texture", 2D) = "white" {}
     }
 
@@ -16,6 +17,8 @@
         CGPROGRAM
             sampler2D _MainTex;
 
+            half4 _Albedo;
+
             #pragma surface surf Lambert
 
             struct Input
@@ -26,7 +29,7 @@
             void surf (Input IN, inout SurfaceOutput o)
             {
                 half4 texColor = tex2D(_MainTex, IN.uv_MainTex);
-                o.Albedo = texColor.rgb;
+                o.Albedo = _Albedo * texColor.rgb;
             }
 
         ENDCG
