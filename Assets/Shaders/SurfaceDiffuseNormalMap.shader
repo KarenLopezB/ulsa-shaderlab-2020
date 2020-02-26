@@ -29,11 +29,11 @@ Shader "Custom/SurfaceDiffuseNormalMap"
 
             void surf (Input IN, inout SurfaceOutput o)
             {
-                half4 texColor = tex2D(_MainTex, IN.uv_MainTex);
+                fixed4 texColor = tex2D(_MainTex, IN.uv_MainTex);
                 o.Albedo = texColor.rgb;
 
-                half4 normalColor = tex2D(_NormalTex, IN.uv_NormalTex);
-                half3 normal = UnpackNormal (normalColor);
+                fixed4 normalColor = tex2D(_NormalTex, IN.uv_NormalTex);
+                fixed3 normal = UnpackNormal(normalColor);
                 o.Normal = normal;
 
             }

@@ -2,8 +2,10 @@ Shader "Custom/SurfaceDiffuseNormalStrength"
 {
     Properties
     {
+        _Albedo("Albedo Color", Color) = (1,1,1,1)
         _MainTex("Main Texture", 2D) = "white" {}
         _NormalTex("Normal Texture", 2D) = "bump" {}
+        _NormalStrength("Normal Strength", Range(-5, 5)) = 1
     }
 
     SubShader
@@ -18,8 +20,10 @@ Shader "Custom/SurfaceDiffuseNormalStrength"
 
             #pragma surface surf Lambert
             
+            fixed3 _Albedo;
             sampler2D _MainTex;
             sampler2D _NormalTex;
+            float _NormalStrength;
 
             struct Input
             {
@@ -29,12 +33,12 @@ Shader "Custom/SurfaceDiffuseNormalStrength"
 
             void surf (Input IN, inout SurfaceOutput o)
             {
-                half4 texColor = tex2D(_MainTex, IN.uv_MainTex);
-                o.Albedo = texColor.rgb;
-
-                half4 normalColor = tex2D(_NormalTex, IN.uv_NormalTex);
-                half3 normal = UnpackNormal (normalColor);
-                o.Normal = normal;
+                fixed3 texColor = tex2D(_MainTex, IN.uv_MainTex);
+                o.Albedo = texColor * _Albedo;
+                fixed4 normalColor = tex2D(_NormalTex, IN.uv_NormalTex);
+                fixed3 normal = UnpackNormal(normalColor);
+                normal.z = normal.z / _NormalStrength;
+                o.Normal = normalize(normal);
 
             }
 
