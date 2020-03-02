@@ -39,7 +39,6 @@ Shader "Custom/SurfaceDiffuseNormalStrength"
                 fixed3 normal = UnpackNormal(normalColor);
                 normal.z = normal.z / _NormalStrength;
                 o.Normal = normalize(normal);
-
             }
 
         ENDCG
