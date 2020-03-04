@@ -1,4 +1,4 @@
-Shader "Custom/SurfaceDiffuseCustomLambert"
+Shader "Custom/SurfaceDiffuseCustomLambertWrap"
 {
     Properties
     {
@@ -19,11 +19,12 @@ Shader "Custom/SurfaceDiffuseCustomLambert"
 
             // Light model diffuse (Lambert)
 
-            half4 LightingCustomLambert(SurfaceOutput s, half3 lightDir, half atten)
+            half4 LightingLambertWrap(SurfaceOutput s, half3 lightDir, half atten)
             {
                 half NdotL = dot (s.Normal, lightDir);
-                half4 c; // c porque la luz en fisica se representa con la letra c
-                c.rgb = s.Albedo * _LightColor0.rgb /* .rgb porque se trae el color consigo */ * (NdotL * atten);
+                half diffwrap = NdotL * 0.5 + 0.5;
+                half4 c;
+                c.rgb = s.Albedo * _LightColor0.rgb * diffwrap * atten;
                 c.a = s.Alpha;
                 return c;
             }
@@ -43,5 +44,3 @@ Shader "Custom/SurfaceDiffuseCustomLambert"
         ENDCG
     }
 }
-
-// float <32 bits>, half <16 bits>, fixed <1,0>, int <64 bits>
