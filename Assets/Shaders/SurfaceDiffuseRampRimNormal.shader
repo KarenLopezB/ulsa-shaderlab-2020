@@ -2,12 +2,12 @@ shader "Custom/SurfaceDiffuseRampRimNormal"
 {
     Properties
     {
-        _Albedo("Albedo Color", Color)=(1,1,1,1)
+        _Albedo("Albedo Color", Color) = (1,1,1,1)
+        _MainTex("Main Texture", 2D) = "white" {}
+        _RimPower("Rim Power", Range(0.0, 8.0)) = 1.0 
+        _NormalTex("Normal Texture", 2D) = "bump" {}
         _RampTex("Ramp Texture", 2D)="white"{}
         [HDR] _RimColor("Rim Color", Color) = (1,0,0,1)
-        _RimPower("Rim Power", Range(0.0, 8.0)) = 1.0 
-        _MainTex("Main Texture", 2D) = "white" {}
-        _NormalTex("Normal Texture", 2D) = "bump" {}
 
     }
     
@@ -15,7 +15,7 @@ shader "Custom/SurfaceDiffuseRampRimNormal"
     {
         Tags
         {
-          "Queve"="Geometry"
+          "Queue"="Geometry"
           "RenderType"="Opaque"
         }
 
@@ -43,7 +43,7 @@ shader "Custom/SurfaceDiffuseRampRimNormal"
 
         struct Input
         {
-            float a; 
+            // float a; 
             float3 viewDir;
             float2 uv_MainTex;
             float2 uv_NormalTex;
@@ -51,7 +51,7 @@ shader "Custom/SurfaceDiffuseRampRimNormal"
 
         void surf(Input IN, inout SurfaceOutput o)
         {
-            // o.Albedo = _Albedo.rgb; 
+            o.Albedo = _Albedo.rgb; 
 
             float3 nVD = normalize(IN.viewDir);
             float3 NdotV = dot(nVD, o.Normal);
