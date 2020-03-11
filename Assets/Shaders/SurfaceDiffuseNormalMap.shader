@@ -1,5 +1,5 @@
 Shader "Custom/SurfaceDiffuseNormalMap"
-{
+{        //Normal Effect (Bump)
     Properties
     {
         _MainTex("Main Texture", 2D) = "white" {}
@@ -36,8 +36,7 @@ Shader "Custom/SurfaceDiffuseNormalMap"
                 fixed3 normal = UnpackNormal(normalColor);
                 o.Normal = normal;
 
-            }
-
+            } 
         ENDCG
     }
 }
